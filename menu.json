@@ -1,0 +1,16 @@
+{
+  "restaurant": "NORFILLS Café",
+  "tagline": "Good Food, Good Mood, Good Memories",
+  "whatsappNumber": "2347049102558",
+  "currency": "NGN",
+  "menu": [
+    {"category":"Carbohydrate (Rice)","items":[["White Rice & Beef Stew",2500],["Party Jollof Rice & Chicken",3000],["Coconut Rice & Chicken",3500],["Nigerian Asun Rice",4000]]},
+    {"category":"Basmati Rice","items":[["Basmati White Rice and Beef Stew",3000],["Basmati Jollof Rice",5000],["Basmati Fried Rice",4000]]},
+    {"category":"Protein","items":[["Fried Fish",3000],["Fried Chicken in Pepper Sauce",2500],["Fried Goat Meat",2500],["Beef",1000],["Turkey",3000],["2pcs of Sausage",1500],["Egg Sauce (for Yam/Plantain)",2000]]},
+    {"category":"Nigerian Soups","items":[["Egusi Soup (with Swallow)",3000],["Okro Soup (with Swallow)",2500],["Ogbono Soup (with Swallow)",3000],["Vegetable Soup (with Swallow)",4000],["Bitterleaf Soup (with Swallow)",3000],["White Soup (with Swallow)",4000],["Afang Soup (with Swallow)",4500],["Oha Soup (with Swallow)",3500]]},
+    {"category":"Others","items":[["Lagos-Style Porridge Yam",3000],["Porridge Beans",3000],["Boiled Yam",2500],["Bread + Egg Sauce & Tea",2500],["Akara & Pap",2500]]},
+    {"category":"Specials","items":[["Dirty Rice",4000],["Ofada Rice & Ayamase Sauce",4500],["Special Norfills Rice",6000],["Stir Fry Spaghetti",4000],["Fisherman Soup",4500],["Pepper Soup",2000]]},
+    {"category":"Sides","items":[["Moi-Moi",1000],["Salad",1000],["Fried Plantain (5 pieces)",800]]},
+    {"category":"Snacks","items":[["Doughnut",800],["Meat Pie",1500],["Chicken Pie",1800],["Fish Pie",1400],["Sausage Roll",1200],["Egg Roll",1000]]}
+  ]
+}
