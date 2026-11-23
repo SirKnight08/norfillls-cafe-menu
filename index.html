@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#11100e">
+<meta name="description" content="NORFILLS Café digital menu. Browse dishes and order on WhatsApp.">
+<title>NORFILLS Café | Menu</title>
+<style>
+:root{--bg:#11100e;--gold:#d8a64c;--cream:#f5ead4;--muted:#b9ad98;--line:#40372b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#49351e 0,transparent 42%),var(--bg);color:var(--cream);font-family:Arial,Helvetica,sans-serif}
+header{padding:30px 18px 22px;text-align:center;border-bottom:1px solid var(--line)}
+.logo{width:62px;height:62px;margin:auto;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-family:Georgia,serif;font-size:25px}
+h1{font-family:Georgia,serif;letter-spacing:3px;font-size:clamp(27px,6vw,42px);margin:12px 0 2px}
+.cafe{color:var(--gold);font-family:Georgia,serif;font-style:italic;font-size:23px}
+.tag{color:var(--muted);font-size:11px;letter-spacing:1px;margin-top:7px}
+.wrap{max-width:1050px;margin:auto;padding:22px 16px 90px}
+.hero{border:1px solid #5a472c;background:linear-gradient(120deg,#282016,#171512 70%);border-radius:18px;padding:23px;margin-bottom:22px}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:2px;text-transform:uppercase}
+.hero h2{font:28px Georgia,serif;margin:8px 0}.hero p{color:var(--muted);font-size:14px;margin:0;max-width:550px;line-height:1.6}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+input{background:#211e19;border:1px solid var(--line);border-radius:12px;color:var(--cream);padding:13px 15px;flex:1;min-width:190px;font-size:14px}
+.chips{display:flex;gap:8px;overflow:auto;padding:3px 0 15px}
+.chip{white-space:nowrap;border:1px solid var(--line);background:#1a1815;color:var(--muted);border-radius:30px;padding:9px 13px;font-size:12px;cursor:pointer}
+.chip.active,.chip:hover{background:var(--gold);color:#1b160e;border-color:var(--gold)}
+.section{margin:24px 0}.section h3{font:22px Georgia,serif;margin:0 0 13px;color:var(--gold);display:flex;align-items:center;gap:10px}
+.section h3:after{content:"";height:1px;background:var(--line);flex:1}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:11px}
+.item{background:linear-gradient(145deg,#211e19,#191714);border:1px solid #393126;border-radius:13px;padding:15px;display:flex;justify-content:space-between;gap:12px;align-items:center;min-height:67px}
+.item-name{font-size:14px;line-height:1.4}.price{color:var(--gold);font-weight:700;font-size:14px;white-space:nowrap}
+.empty{color:var(--muted);padding:30px;text-align:center}
+footer{text-align:center;border-top:1px solid var(--line);padding:24px;color:var(--muted);font-size:12px}
+.float{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);border:0;border-radius:40px;background:#20b85a;color:#08150c;padding:15px 22px;font-weight:800;box-shadow:0 8px 28px #0009;cursor:pointer;white-space:nowrap}
+.qrbox{margin:26px auto 0;text-align:center;border:1px solid var(--line);border-radius:16px;padding:18px;max-width:340px;background:#191714}
+.qrbox img{width:180px;height:180px;background:white;padding:8px;border-radius:8px}.qrbox p{font-size:12px;color:var(--muted);line-height:1.5}
+@media(min-width:700px){.wrap{padding-top:30px}.hero{padding:32px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style></head>
+<body>
+<header><div class="logo">N</div><h1>NORFILLS</h1><div class="cafe">Café</div><div class="tag">GOOD FOOD, GOOD MOOD, GOOD MEMORIES</div></header>
+<main class="wrap">
+<div class="hero"><div class="eyebrow">NORFILLS Café menu</div><h2>Good food, served with care.</h2><p>Browse the menu, choose what you would like, and contact NORFILLS Café directly on WhatsApp to place your order.</p></div>
+<div class="toolbar"><input id="search" type="search" placeholder="Search dishes…"></div>
+<nav class="chips" id="chips"></nav><div id="menu"></div>
+<div class="qrbox"><div class="eyebrow">NORFILLS Café</div><h3>Scan to view this menu</h3><img id="qr" alt="QR code for NORFILLS Café digital menu"><p>Scan this code to open the menu on your phone.</p></div>
+</main>
+<footer>NORFILLS Café · Good Food, Good Mood, Good Memories</footer>
+<button class="float" id="order">Order on WhatsApp</button>
+<script>
+let DATA;
+const money=n=>"₦"+Number(n).toLocaleString("en-NG");
+fetch("menu.json").then(r=>r.json()).then(d=>{DATA=d;render();makeQR();});
+let active="All";
+function render(){
+ const q=document.querySelector("#search").value.toLowerCase();
+ const cats=["All",...DATA.menu.map(x=>x.category)];
+ document.querySelector("#chips").innerHTML=cats.map(c=>`<button class="chip ${active===c?"active":""}" data-cat="${c}">${c}</button>`).join("");
+ document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{active=b.dataset.cat;render()});
+ let html="";
+ DATA.menu.filter(c=>active==="All"||c.category===active).forEach(c=>{
+  const items=c.items.filter(i=>i[0].toLowerCase().includes(q));
+  if(items.length){html+=`<section class="section"><h3>${c.category}</h3><div class="grid">${items.map(i=>`<div class="item"><span class="item-name">${i[0]}</span><span class="price">${money(i[1])}</span></div>`).join("")}</div></section>`}
+ });
+ document.querySelector("#menu").innerHTML=html||'<div class="empty">No dishes match your search.</div>';
+}
+function orderWhatsApp(){
+ const msg=encodeURIComponent("Hello NORFILLS Café, I viewed your digital menu and would like to place an order.");
+ window.open(`https://wa.me/${DATA.whatsappNumber}?text=${msg}`,"_blank");
+}
+document.querySelector("#search").addEventListener("input",render);
+document.querySelector("#order").onclick=orderWhatsApp;
+function makeQR(){
+ if(location.protocol==="file:")return;
+ const url=encodeURIComponent(location.href.split("#")[0]);
+ document.querySelector("#qr").src=`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${url}`;
+}
+</script></body></html>
